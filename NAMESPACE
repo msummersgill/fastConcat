@@ -1,0 +1,3 @@
+useDynLib(fastConcat, .registration=TRUE)
+exportPattern("^[[:alpha:]]+")
+importFrom(Rcpp, evalCpp)

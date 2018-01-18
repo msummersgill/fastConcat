@@ -1,0 +1,11 @@
+Package: fastConcat
+Type: Package
+Title: Frankenstein hack job of data.table internals to concatenate vectors faster
+Version: 0.1
+Date: 2018-01-18
+Author: person("Matt", "Summersgill", email = "matt.summersgill@hpidc.com",role = c("aut", "cre"))
+Maintainer: person("Matt", "Summersgill", email = "matt.summersgill@hpidc.com",role = c("aut", "cre"))
+Description: Hopefully allows fast concatenation of data.table columns
+License: GPL 3.0
+Imports: Rcpp (>= 0.12.13)
+LinkingTo: Rcpp
