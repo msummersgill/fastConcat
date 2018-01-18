@@ -1,11 +1,19 @@
 #include <Rcpp.h>
+#include <R.h>
+#define USE_RINTERNALS
+#include <Rinternals.h>
+#include <stdbool.h>   // true and false
+#include <stdint.h>    // INT32_MIN
+#include <math.h>      // isfinite, isnan
+#include <stdlib.h>    // abs
+#include <string.h>    // strlen, strerror
 #include "fastConcat.h"
-using namespace Rcpp;
+
+using namespace Rcpp ;
 
 // [[Rcpp::export]]
-
-
-List fastConcat(char preallocated_target,
+SEXP fastConcat(DataFrame x,
+                char preallocated_target,
                 int columns,
                 int start_row,
                 int end_row) {

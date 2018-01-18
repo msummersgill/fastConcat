@@ -3,9 +3,11 @@ Type: Package
 Title: Frankenstein hack job of data.table internals to concatenate vectors faster
 Version: 0.1
 Date: 2018-01-18
-Author: person("Matt", "Summersgill", email = "matt.summersgill@hpidc.com",role = c("aut", "cre"))
-Maintainer: person("Matt", "Summersgill", email = "matt.summersgill@hpidc.com",role = c("aut", "cre"))
+Authors@R: c(
+             person("Matt","Summersgill",      role=c("aut","cre"), email="mattjdowle@gmail.com"),
+             person("Martin ","Modrak", role=c("aut"), email="unknown@gmail.com"))
 Description: Hopefully allows fast concatenation of data.table columns
+URL: https://stackoverflow.com/questions/48233309/fast-concatenation-of-data-table-columns
 License: GPL 3.0
 Imports: Rcpp (>= 0.12.13)
 LinkingTo: Rcpp

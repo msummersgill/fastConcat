@@ -6,22 +6,23 @@
 using namespace Rcpp;
 
 // fastConcat
-List fastConcat(char preallocated_target, int columns, int start_row, int end_row);
-RcppExport SEXP _fastConcat_fastConcat(SEXP preallocated_targetSEXP, SEXP columnsSEXP, SEXP start_rowSEXP, SEXP end_rowSEXP) {
+SEXP fastConcat(DataFrame x, char preallocated_target, int columns, int start_row, int end_row);
+RcppExport SEXP _fastConcat_fastConcat(SEXP xSEXP, SEXP preallocated_targetSEXP, SEXP columnsSEXP, SEXP start_rowSEXP, SEXP end_rowSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
     Rcpp::traits::input_parameter< char >::type preallocated_target(preallocated_targetSEXP);
     Rcpp::traits::input_parameter< int >::type columns(columnsSEXP);
     Rcpp::traits::input_parameter< int >::type start_row(start_rowSEXP);
     Rcpp::traits::input_parameter< int >::type end_row(end_rowSEXP);
-    rcpp_result_gen = Rcpp::wrap(fastConcat(preallocated_target, columns, start_row, end_row));
+    rcpp_result_gen = Rcpp::wrap(fastConcat(x, preallocated_target, columns, start_row, end_row));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_fastConcat_fastConcat", (DL_FUNC) &_fastConcat_fastConcat, 4},
+    {"_fastConcat_fastConcat", (DL_FUNC) &_fastConcat_fastConcat, 5},
     {NULL, NULL, 0}
 };
 
