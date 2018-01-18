@@ -1,5 +1,7 @@
 #include <Rcpp.h>
 #include <R.h>
+#include <Rdefines.h>
+#include <Rmath.h>
 #define USE_RINTERNALS
 #include <Rinternals.h>
 #include <stdbool.h>   // true and false
@@ -9,7 +11,7 @@
 #include <string.h>    // strlen, strerror
 #include "fastConcat.h"
 
-using namespace Rcpp ;
+using namespace Rcpp;
 
 // [[Rcpp::export]]
 SEXP fastConcat(DataFrame x,
