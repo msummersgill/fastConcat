@@ -4,7 +4,7 @@ Title: Frankenstein hack job of data.table internals to concatenate vectors fast
 Version: 0.1
 Date: 2018-01-18
 Authors@R: c(
-             person("Matt","Summersgill",      role=c("aut","cre"), email="mattjdowle@gmail.com"),
+             person("Matt","Summersgill",      role=c("aut","cre"), email="matt.summersgill@gmail.com"),
              person("Martin ","Modrak", role=c("aut"), email="unknown@gmail.com"))
 Description: Hopefully allows fast concatenation of data.table columns
 URL: https://stackoverflow.com/questions/48233309/fast-concatenation-of-data-table-columns
