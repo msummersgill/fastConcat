@@ -1,20 +1,20 @@
-#include <Rcpp.h>
+//#include <Rcpp.h>
 #include <R.h>
-#include <Rdefines.h>
-#include <Rmath.h>
-#define USE_RINTERNALS
+//#include <Rdefines.h>
+//#include <Rmath.h>
+//#define USE_RINTERNALS
 #include <Rinternals.h>
-#include <stdbool.h>   // true and false
-#include <stdint.h>    // INT32_MIN
-#include <math.h>      // isfinite, isnan
-#include <stdlib.h>    // abs
-#include <string.h>    // strlen, strerror
+//#include <stdbool.h>   // true and false
+//#include <stdint.h>    // INT32_MIN
+//#include <math.h>      // isfinite, isnan
+//#include <stdlib.h>    // abs
+//#include <string.h>    // strlen, strerror
 #include "fastConcat.h"
 
-using namespace Rcpp;
+//using namespace Rcpp;
 
-// [[Rcpp::export]]
-SEXP fastConcat(DataFrame x,
+
+SEXP CfastConcat(SEXP x,
                 char preallocated_target,
                 int columns,
                 int start_row,
