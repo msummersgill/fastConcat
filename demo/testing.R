@@ -14,12 +14,12 @@ DT <- data.table(x = "foo",
 ## Generate an expression to paste an arbitrary list of columns together
 ConcatCols <- c("a","b","c","d","e","f")
 ## Do it 3x as many times
-# ConcatCols <- c(ConcatCols,ConcatCols,ConcatCols)
+ConcatCols <- c(ConcatCols,ConcatCols,ConcatCols)
 
 ## using fastConcat::concat
 
 column_indices <- sapply(ConcatCols, FUN = function(x) { which(colnames(DT) == x )})
-fastConcat::concat(DT, column_indices, ",")
+fastConcat::concat(DT, column_indices, "")
 
 
 column_indices
@@ -157,9 +157,9 @@ ConcatCols <- c("a","b","c","d","e","f","g","h","i","j","l","l","m","n","o","p",
 
 ## using fastConcat::concat with empty
 system.time({
-  preallocated_target <- character(RowCount)
+  # preallocated_target <- character(RowCount)
   column_indices <- sapply(ConcatCols, FUN = function(x) { which(colnames(DT) == x )})
-  DT[, State := fastConcat::concat(DT, preallocated_target, column_indices, as.integer(1), as.integer(RowCount), "")]
+  DT[, State := fastConcat::concat(DT, column_indices, "")]
 })
 
 
