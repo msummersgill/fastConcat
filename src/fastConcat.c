@@ -14,7 +14,7 @@
 //using namespace Rcpp;
 
 
-SEXP CfastConcat(SEXP x,
+void CfastConcat(SEXP x,
                 char preallocated_target,
                 int columns,
                 int start_row,
@@ -40,5 +40,5 @@ SEXP CfastConcat(SEXP x,
     }
     SET_STRING_ELT(preallocated_target,i, mkCharLen(buffer, buf_pos - buffer));
   }
-  return preallocated_target;
+  //return preallocated_target;
 }
