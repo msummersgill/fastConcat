@@ -157,7 +157,7 @@ ConcatCols <- c("a","b","c","d","e","f","g","h","i","j","l","l","m","n","o","p",
 
 ## using fastConcat::concat with empty
 system.time({
-  # preallocated_target <- character(RowCount)
+  preallocated_target <- character(RowCount)
   column_indices <- sapply(ConcatCols, FUN = function(x) { which(colnames(DT) == x )})
   DT[, State := fastConcat::concat(DT, column_indices, "")]
 })

@@ -42,9 +42,7 @@ SEXP CfastConcat ( SEXP l, SEXP columns, SEXP sep ) {
   int _has_sep = strcmp(_sep,"");
   
   R_len_t nrow = length(VECTOR_ELT(l,0)), ncol = length(l);
-  SEXP _result = allocVector(STRSXP, nrow);
-  
-
+  SEXP _result = PROTECT(allocVector(STRSXP, nrow));
   
   const int max_out_len = 256 * 256; //max length of the final string
   char buffer[max_out_len];
@@ -74,9 +72,7 @@ SEXP CfastConcat ( SEXP l, SEXP columns, SEXP sep ) {
       SET_STRING_ELT(_result,i, mkCharLen(buffer, buf_pos - buffer));
     }
   }
-  //UNPROTECT(1);
+  UNPROTECT(1);
   return _result;
   
-  //warning("your C program does not return anything!");
-  //return R_NilValue;
 }
