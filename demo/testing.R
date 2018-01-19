@@ -59,7 +59,7 @@ DT[, State := fastConcat::concat(DT, preallocated_target, column_indices, as.int
 library(fastConcat)
 library(data.table)
 
-RowCount <- RowCount <- 5
+RowCount <- 5
 DT <- data.table(x = "foo",
                  y = "bar",
                  a = sample.int(9, RowCount, TRUE),
@@ -81,3 +81,83 @@ column_indices <- sapply(ConcatCols, FUN = function(x) { which(colnames(DT) == x
 
 DT[, State := fastConcat::concat(DT, preallocated_target, column_indices, as.integer(1), as.integer(RowCount), "")]
 print(DT)
+
+
+
+# New SO Proposal ---------------------------------------------------------
+
+
+library(data.table)
+
+RowCount <- 1e7
+DT <- data.table(x = "foo",
+                 y = "bar",
+                 a = sample.int(4, RowCount, TRUE),
+                 b = sample.int(4, RowCount, TRUE),
+                 c = sample.int(3, RowCount, TRUE),
+                 d = sample.int(3, RowCount, TRUE),
+                 e = sample.int(2, RowCount, TRUE),
+                 f = sample.int(2, RowCount, TRUE),
+                 g = sample.int(2, RowCount, TRUE),
+                 h = sample.int(2, RowCount, TRUE),
+                 i = sample.int(2, RowCount, TRUE),
+                 j = sample.int(2, RowCount, TRUE),
+                 k = 0L,
+                 l = 0L,
+                 m = 0L,
+                 n = 0L,
+                 o = 0L,
+                 p = 0L,
+                 q = 0L,
+                 r = 0L)
+
+## Generate an expression to paste an arbitrary list of columns together
+ConcatCols <- c("a","b","c","d","e","f","g","h","i","j","l","l","m","n","o","p","q","r")
+
+system.time({
+  setkeyv(DT, ConcatCols)
+  DTunique <- unique(DT[, ConcatCols, with=FALSE], by = key(DT))
+  DTunique[, State :=  do.call(paste0, c(DTunique))]
+  DT[DTunique, State := i.State, on = ConcatCols]
+})
+
+
+
+# Representative Data fastConcat::concat -----------------------------------------------------
+
+library(fastConcat)
+library(data.table)
+
+RowCount <- 1e7
+DT <- data.table(x = "foo",
+                 y = "bar",
+                 a = sample.int(4, RowCount, TRUE),
+                 b = sample.int(4, RowCount, TRUE),
+                 c = sample.int(3, RowCount, TRUE),
+                 d = sample.int(3, RowCount, TRUE),
+                 e = sample.int(2, RowCount, TRUE),
+                 f = sample.int(2, RowCount, TRUE),
+                 g = sample.int(2, RowCount, TRUE),
+                 h = sample.int(2, RowCount, TRUE),
+                 i = sample.int(2, RowCount, TRUE),
+                 j = sample.int(2, RowCount, TRUE),
+                 k = 0L,
+                 l = 0L,
+                 m = 0L,
+                 n = 0L,
+                 o = 0L,
+                 p = 0L,
+                 q = 0L,
+                 r = 0L)
+
+## Generate an expression to paste an arbitrary list of columns together
+ConcatCols <- c("a","b","c","d","e","f","g","h","i","j","l","l","m","n","o","p","q","r")
+
+## using fastConcat::concat with empty
+system.time({
+  preallocated_target <- character(RowCount)
+  column_indices <- sapply(ConcatCols, FUN = function(x) { which(colnames(DT) == x )})
+  DT[, State := fastConcat::concat(DT, preallocated_target, column_indices, as.integer(1), as.integer(RowCount), "")]
+})
+
+

@@ -2,6 +2,13 @@ library(inline)
 library(data.table)
 library(stringi)
 
+
+
+fx <- inline:: cfunction( signature(x = "integer", y = "numeric" ) , '
+    return ScalarReal( INTEGER(x)[0] * REAL(y)[0] ) ;
+' )
+fx( 2L, 5 )
+
 header <- "
 
 //Taken from https://github.com/Rdatatable/data.table/blob/master/src/fwrite.c
@@ -64,9 +71,9 @@ worker_fun <- inline::cfunction( signature(x = "list", preallocated_target = "ch
                                    return preallocated_target;
                                    " )
 
-inline::getDynLib(worker_fun)
-inline::code(worker_fun)
-inline::print(worker_fun)
+
+# inline::code(worker_fun)
+
 
 #Test with the same data
 
@@ -89,5 +96,8 @@ ConcatCols <- c(ConcatCols,ConcatCols,ConcatCols)
 
 preallocated_target <- character(RowCount)
 column_indices <- sapply(ConcatCols, FUN = function(x) { which(colnames(DT) == x )})
+
+worker_fun(DT, preallocated_target, column_indices, as.integer(1), as.integer(RowCount))
+
 x <- worker_fun(DT, preallocated_target, column_indices, as.integer(1), as.integer(RowCount))
 DT[, State := preallocated_target]
