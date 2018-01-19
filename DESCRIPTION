@@ -9,5 +9,3 @@ Authors@R: c(
 Description: Hopefully allows fast concatenation of data.table columns
 URL: https://stackoverflow.com/questions/48233309/fast-concatenation-of-data-table-columns
 License: GPL 3.0
-Imports: Rcpp (>= 0.12.13)
-LinkingTo: Rcpp
