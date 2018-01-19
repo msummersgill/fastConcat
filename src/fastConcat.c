@@ -62,7 +62,7 @@ SEXP CfastConcat ( SEXP l, SEXP columns, SEXP sep ) {
   //  
   //} else { // write passed delimiter
   
-    for(int i = 1; i < nrow; ++i) {
+    for(int i = 0; i < nrow; ++i) {
       char *buf_pos = buffer;
       for(int c = 0; c < num_columns; ++c) {
         if(c > 0) {

@@ -12,16 +12,18 @@ DT <- data.table(x = "foo",
                  f = sample.int(9, RowCount, TRUE))
 
 ## Generate an expression to paste an arbitrary list of columns together
-ConcatCols <- c("a","b","c","d","e","f")
+ConcatCols <- list("a","b","c","d","e","f")
 ## Do it 3x as many times
-# ConcatCols <- c(ConcatCols,ConcatCols,ConcatCols)
+ConcatCols <- c(ConcatCols,ConcatCols,ConcatCols)
 
 ## using fastConcat::concat
 
 column_indices <- sapply(ConcatCols, FUN = function(x) { which(colnames(DT) == x )})
-# fastConcat::concat(DT, column_indices, ",")
+fastConcat::concat(DT, column_indices, ",")
+
+
 column_indices
-DT[,fastConcat::concat(columns = c(a,b,c), sep = ",")]
+DT[,fastConcat::concat(DT,columns = c(3L,4L,5L), sep = ",")]
 
 
 # Full 5 million rows -----------------------------------------------------
