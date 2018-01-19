@@ -6,7 +6,7 @@ One trick pony Based off stack overflow question [Fast Concatenation of data.tab
 
 One function, `fastConcat::concat`.
 
-All the elegant C code actually came from the `data.table` package internals.
+*All the elegant C code actually came from the `data.table` package internals.*
 
  Works, if all you want to concatenate is single digit integers.
  
@@ -32,17 +32,17 @@ ConcatCols <- c(ConcatCols,ConcatCols,ConcatCols)
 preallocated_target <- character(RowCount)
 column_indices <- sapply(ConcatCols, FUN = function(x) { which(colnames(DT) == x )})
 
-DT[, State := fastConcat::concat(DT, preallocated_target, column_indices, as.integer(1), as.integer(RowCount))]
+DT[, State := fastConcat::concat(DT, preallocated_target, column_indices, as.integer(1), as.integer(RowCount), "")]
 print(DT)
 ```
 
 ```
-     x   y a b c d e f                               State
-1: foo bar 3 7 6 5 4 3 3,7,6,5,4,3,3,7,6,5,4,3,3,7,6,5,4,3
-2: foo bar 2 4 1 1 7 1 2,4,1,1,7,1,2,4,1,1,7,1,2,4,1,1,7,1
-3: foo bar 8 6 2 9 7 6 8,6,2,9,7,6,8,6,2,9,7,6,8,6,2,9,7,6
-4: foo bar 7 3 5 5 2 8 7,3,5,5,2,8,7,3,5,5,2,8,7,3,5,5,2,8
-5: foo bar 9 5 3 6 9 1 9,5,3,6,9,1,9,5,3,6,9,1,9,5,3,6,9,1
+     x   y a b c d e f              State
+1: foo bar 8 9 7 8 3 3 897833897833897833
+2: foo bar 2 5 6 1 5 5 256155256155256155
+3: foo bar 1 1 6 5 8 9 116589116589116589
+4: foo bar 2 5 2 6 3 4 252634252634252634
+5: foo bar 3 7 1 1 9 1 371191371191371191
 ```
 
 
