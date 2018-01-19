@@ -1,24 +1,42 @@
-//#include <Rcpp.h>
 #include <R.h>
-//#include <Rdefines.h>
-//#include <Rmath.h>
-//#define USE_RINTERNALS
-#include <Rinternals.h>
-//#include <stdbool.h>   // true and false
-//#include <stdint.h>    // INT32_MIN
-//#include <math.h>      // isfinite, isnan
-//#include <stdlib.h>    // abs
-//#include <string.h>    // strlen, strerror
-#include "fastConcat.h"
-
-//using namespace Rcpp;
+#include <Rdefines.h>
+#include <R_ext/Error.h>
 
 
-void CfastConcat(SEXP x,
-                char preallocated_target,
-                int columns,
-                int start_row,
-                int end_row) {
+//Taken from https://github.com/Rdatatable/data.table/blob/master/src/fwrite.c
+static inline void reverse(char *upp, char *low)
+{
+  upp--;
+  while (upp>low) {
+    char tmp = *upp;
+    *upp = *low;
+    *low = tmp;
+    upp--;
+    low++;
+  }
+}
+
+void writeInt32(int *col, size_t row, char **pch)
+{
+  char *ch = *pch;
+  int x = col[row];
+  if (x == INT_MIN) {
+    *ch++ = 'N';
+    *ch++ = 'A';
+  } else {
+    if (x<0) { *ch++ = '-'; x=-x; }
+    // Avoid log() for speed. Write backwards then reverse when we know how long.
+    char *low = ch;
+    do { *ch++ = '0'+x%10; x/=10; } while (x>0);
+    reverse(ch, low);
+  }
+  *pch = ch;
+}
+
+//end of data.table code. 
+
+
+SEXP CfastConcat ( SEXP x, SEXP preallocated_target, SEXP columns, SEXP start_row, SEXP end_row ) {
   
   const size_t _start_row = INTEGER(start_row)[0] - 1;
   const size_t _end_row = INTEGER(end_row)[0];
@@ -40,5 +58,8 @@ void CfastConcat(SEXP x,
     }
     SET_STRING_ELT(preallocated_target,i, mkCharLen(buffer, buf_pos - buffer));
   }
-  //return preallocated_target;
+  return preallocated_target;
+  
+  warning("your C program does not return anything!");
+  return R_NilValue;
 }

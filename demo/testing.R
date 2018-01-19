@@ -16,8 +16,6 @@ ConcatCols <- list("a","b","c","d","e","f")
 ## Do it 3x as many times
 ConcatCols <- c(ConcatCols,ConcatCols,ConcatCols)
 
-
-
 preallocated_target <- character(RowCount)
 column_indices <- sapply(ConcatCols, FUN = function(x) { which(colnames(DT) == x )})
 
