@@ -1,7 +1,8 @@
 #include <R.h>
 #include <Rdefines.h>
 #include <R_ext/Error.h>
-
+#include <stdio.h>
+#include <string.h>
 
 //Taken from https://github.com/Rdatatable/data.table/blob/master/src/fwrite.c
 static inline void reverse(char *upp, char *low)
@@ -36,7 +37,8 @@ void writeInt32(int *col, size_t row, char **pch)
 //end of data.table code. 
 
 
-SEXP CfastConcat ( SEXP x, SEXP preallocated_target, SEXP columns, SEXP start_row, SEXP end_row ) {
+SEXP CfastConcat ( SEXP x, SEXP preallocated_target, SEXP columns, SEXP start_row, SEXP end_row, char sep ) {
+  int _has_sep = strcmp(sep,"");
   
   const size_t _start_row = INTEGER(start_row)[0] - 1;
   const size_t _end_row = INTEGER(end_row)[0];
@@ -47,17 +49,30 @@ SEXP CfastConcat ( SEXP x, SEXP preallocated_target, SEXP columns, SEXP start_ro
   const size_t num_columns = LENGTH(columns);
   const int * _columns = INTEGER(columns);
   
-  for(size_t i = _start_row; i < _end_row; ++i) {
-    char *buf_pos = buffer;
-    for(size_t c = 0; c < num_columns; ++c) {
-      if(c > 0) {
-        buf_pos[0] = ',';
-        ++buf_pos;
+  // skip 
+  if (_has_sep == 0) {
+    for(size_t i = _start_row; i < _end_row; ++i) {
+      char *buf_pos = buffer;
+      for(size_t c = 0; c < num_columns; ++c) {
+        writeInt32(INTEGER(VECTOR_ELT(x, _columns[c] - 1)), i, &buf_pos);
       }
-      writeInt32(INTEGER(VECTOR_ELT(x, _columns[c] - 1)), i, &buf_pos);
+      SET_STRING_ELT(preallocated_target,i, mkCharLen(buffer, buf_pos - buffer));
     }
-    SET_STRING_ELT(preallocated_target,i, mkCharLen(buffer, buf_pos - buffer));
+    
+  } else {
+    for(size_t i = _start_row; i < _end_row; ++i) {
+      char *buf_pos = buffer;
+      for(size_t c = 0; c < num_columns; ++c) {
+        if(c > 0) {
+          buf_pos[0] = sep;
+          ++buf_pos;
+        }
+        writeInt32(INTEGER(VECTOR_ELT(x, _columns[c] - 1)), i, &buf_pos);
+      }
+      SET_STRING_ELT(preallocated_target,i, mkCharLen(buffer, buf_pos - buffer));
+    }
   }
+  
   return preallocated_target;
   
   warning("your C program does not return anything!");
