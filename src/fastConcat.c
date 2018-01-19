@@ -51,16 +51,16 @@ SEXP CfastConcat ( SEXP l, SEXP columns, SEXP sep ) {
   const int * _columns = INTEGER(columns);
   const size_t num_columns = LENGTH(columns);
   
-  //if (_has_sep == 0) { // skip writing delimiter
-  //  for(int i = 1; i < nrow; ++i) {
-  //    char *buf_pos = buffer;
-  //    for(size_t c = 0; c < num_columns; ++c) {
-  //      writeInt32(INTEGER(VECTOR_ELT(x, _columns[c] - 1)), i, &buf_pos);
-  //    }
-  //    SET_STRING_ELT(_result,i, mkCharLen(buffer, buf_pos - buffer));
-  //  }
-  //  
-  //} else { // write passed delimiter
+  if (_has_sep == 0) { // skip writing delimiter
+    
+    for(int i = 0; i < nrow; ++i) {
+      char *buf_pos = buffer;
+      for(int c = 0; c < num_columns; ++c) {
+        writeInt32(INTEGER(VECTOR_ELT(l, _columns[c] - 1)), i, &buf_pos);
+      }
+      SET_STRING_ELT(_result,i, mkCharLen(buffer, buf_pos - buffer));
+    }
+  } else { // write passed delimiter
   
     for(int i = 0; i < nrow; ++i) {
       char *buf_pos = buffer;
@@ -73,7 +73,7 @@ SEXP CfastConcat ( SEXP l, SEXP columns, SEXP sep ) {
       }
       SET_STRING_ELT(_result,i, mkCharLen(buffer, buf_pos - buffer));
     }
-  //}
+  }
   
   return _result;
   
