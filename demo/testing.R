@@ -25,5 +25,5 @@ fastConcat::concat(DT, preallocated_target, column_indices, as.integer(1), as.in
 
 
 
-DT[, State := preallocated_target]
+DT[, State := fastConcat::concat(DT, preallocated_target, column_indices, as.integer(1), as.integer(RowCount))]
 DT
