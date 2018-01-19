@@ -17,10 +17,10 @@ ConcatCols <- list("a","b","c","d","e","f")
 ConcatCols <- c(ConcatCols,ConcatCols,ConcatCols)
 
 ## using fastConcat::concat
-
+sep <- ""
 preallocated_target <- character(RowCount)
 column_indices <- sapply(ConcatCols, FUN = function(x) { which(colnames(DT) == x )})
-fastConcat::concat(DT, preallocated_target, column_indices, as.integer(1), as.integer(RowCount))
+fastConcat::concat(DT, preallocated_target, column_indices, as.integer(1), as.integer(RowCount), sep)
 
 
 
