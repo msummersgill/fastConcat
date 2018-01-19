@@ -2,13 +2,13 @@
 
 > *Hopefully* allows fast concatenation of data.table columns by re-purposing some of the `data.table` package internals.
 
-One trick pony Based off stack overflow question [Fast Concatenation of data.table columns](https://stackoverflow.com/questions/48233309/fast-concatenation-of-data-table-columns).
+One trick pony with function `fastConcat::concat()` based off of stack overflow question [Fast Concatenation of data.table columns](https://stackoverflow.com/questions/48233309/fast-concatenation-of-data-table-columns).
 
-One function, `fastConcat::concat`.
++ Works, if all you want to concatenate is single digit integers for now
++ Use at your own risk! Passing in non-integers, a multi-character separator, or one of many other possible things a reasonable person might try will probably cause a segfault and crash your R session!
 
-*All the elegant C code actually came from the `data.table` package internals.*
+*Note: All the elegant C code actually came from the `data.table` package internals.*
 
-Works, if all you want to concatenate is single digit integers for now.
  
 ```r
 library(fastConcat)
