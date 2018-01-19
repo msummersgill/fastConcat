@@ -44,13 +44,12 @@ SEXP CfastConcat ( SEXP l, SEXP columns, SEXP sep ) {
   R_len_t nrow = length(VECTOR_ELT(l,0)), ncol = length(l);
   SEXP _result = PROTECT(allocVector(STRSXP, nrow));
   
-  const int max_out_len = 256 * 256; //max length of the final string
+  const int max_out_len = 1024; //max length of the final string
   char buffer[max_out_len];
   const int * _columns = INTEGER(columns);
   const size_t num_columns = LENGTH(columns);
   
   if (_has_sep == 0) { // skip writing delimiter
-    
     for(int i = 0; i < nrow; ++i) {
       char *buf_pos = buffer;
       for(int c = 0; c < num_columns; ++c) {
@@ -59,7 +58,6 @@ SEXP CfastConcat ( SEXP l, SEXP columns, SEXP sep ) {
       SET_STRING_ELT(_result,i, mkCharLen(buffer, buf_pos - buffer));
     }
   } else { // write passed delimiter
-  
     for(int i = 0; i < nrow; ++i) {
       char *buf_pos = buffer;
       for(int c = 0; c < num_columns; ++c) {
