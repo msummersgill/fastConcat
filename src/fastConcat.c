@@ -49,7 +49,7 @@ SEXP CfastConcat ( SEXP l, SEXP columns, SEXP sep ) {
   const int max_out_len = 256 * 256; //max length of the final string
   char buffer[max_out_len];
   const int * _columns = INTEGER(columns);
-  
+  const size_t num_columns = LENGTH(columns);
   
   //if (_has_sep == 0) { // skip writing delimiter
   //  for(int i = 1; i < nrow; ++i) {
@@ -61,9 +61,10 @@ SEXP CfastConcat ( SEXP l, SEXP columns, SEXP sep ) {
   //  }
   //  
   //} else { // write passed delimiter
+  
     for(int i = 1; i < nrow; ++i) {
       char *buf_pos = buffer;
-      for(int c = 0; c < ncol; ++c) {
+      for(int c = 0; c < num_columns; ++c) {
         if(c > 0) {
           buf_pos[0] = *_sep;
           ++buf_pos;
@@ -76,6 +77,6 @@ SEXP CfastConcat ( SEXP l, SEXP columns, SEXP sep ) {
   
   return _result;
   
-  warning("your C program does not return anything!");
-  return R_NilValue;
+  //warning("your C program does not return anything!");
+  //return R_NilValue;
 }
