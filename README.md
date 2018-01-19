@@ -1,6 +1,6 @@
 ## fastConcat
 
-> *Hopefully* allows fast concatenation of data.table columns.
+> *Hopefully* allows fast concatenation of data.table columns by re-purposing some of the `data.table` package internals.
 
 One trick pony Based off stack overflow question [Fast Concatenation of data.table columns](https://stackoverflow.com/questions/48233309/fast-concatenation-of-data-table-columns).
 
@@ -8,7 +8,7 @@ One function, `fastConcat::concat`.
 
 *All the elegant C code actually came from the `data.table` package internals.*
 
- Works, if all you want to concatenate is single digit integers.
+Works, if all you want to concatenate is single digit integers for now.
  
 ```r
 library(fastConcat)
@@ -29,10 +29,9 @@ ConcatCols <- list("a","b","c","d","e","f")
 ## Do it 3x as many times
 ConcatCols <- c(ConcatCols,ConcatCols,ConcatCols)
 
-preallocated_target <- character(RowCount)
 column_indices <- sapply(ConcatCols, FUN = function(x) { which(colnames(DT) == x )})
 
-DT[, State := fastConcat::concat(DT, preallocated_target, column_indices, as.integer(1), as.integer(RowCount), "")]
+DT[, State := fastConcat::concat(DT, column_indices, sep = "")]
 print(DT)
 ```
 
