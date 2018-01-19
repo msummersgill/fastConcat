@@ -12,9 +12,9 @@ DT <- data.table(x = "foo",
                  f = sample.int(9, RowCount, TRUE))
 
 ## Generate an expression to paste an arbitrary list of columns together
-ConcatCols <- list("a","b","c","d","e","f")
+ConcatCols <- c("a","b","c","d","e","f")
 ## Do it 3x as many times
-ConcatCols <- c(ConcatCols,ConcatCols,ConcatCols)
+# ConcatCols <- c(ConcatCols,ConcatCols,ConcatCols)
 
 ## using fastConcat::concat
 

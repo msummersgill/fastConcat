@@ -74,7 +74,7 @@ SEXP CfastConcat ( SEXP l, SEXP columns, SEXP sep ) {
       SET_STRING_ELT(_result,i, mkCharLen(buffer, buf_pos - buffer));
     }
   }
-  
+  UNPROTECT(1);
   return _result;
   
   //warning("your C program does not return anything!");
