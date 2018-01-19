@@ -41,7 +41,7 @@ SEXP CfastConcat ( SEXP l, SEXP columns, SEXP sep ) {
   const char * _sep = CHAR(asChar(sep));
   int _has_sep = strcmp(_sep,"");
   
-  R_len_t nrow = length(VECTOR_ELT(l,0)), ncol = length(l);
+  R_len_t nrow = length(VECTOR_ELT(l,0));
   SEXP _result = PROTECT(allocVector(STRSXP, nrow));
   
   const int max_out_len = 1024; //max length of the final string
