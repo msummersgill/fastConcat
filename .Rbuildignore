@@ -2,3 +2,5 @@
 ^\.Rproj\.user$
 .gitignore
 demo/
+src/fastConcat.c
+src/fastConcat.h

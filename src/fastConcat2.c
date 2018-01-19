@@ -1,8 +1,7 @@
-library(inline)
-library(data.table)
-library(stringi)
+#include <R.h>
+#include <Rdefines.h>
+#include <R_ext/Error.h>
 
-header <- "
 
 //Taken from https://github.com/Rdatatable/data.table/blob/master/src/fwrite.c
 static inline void reverse(char *upp, char *low)
@@ -36,11 +35,14 @@ void writeInt32(int *col, size_t row, char **pch)
 
 //end of copied code 
 
-"
 
 
+//extern "C" {
+//  SEXP file254e2aae80a ( SEXP x, SEXP preallocated_target, SEXP columns, SEXP start_row, SEXP end_row );
+//}
 
-worker_fun <- inline::cfunction( signature(x = "list", preallocated_target = "character", columns = "integer", start_row = "integer", end_row = "integer"), includes = header , "
+SEXP CfastConcat2 ( SEXP x, SEXP preallocated_target, SEXP columns, SEXP start_row, SEXP end_row ) {
+
                                    const size_t _start_row = INTEGER(start_row)[0] - 1;
                                    const size_t _end_row = INTEGER(end_row)[0];
                                    
@@ -62,32 +64,7 @@ worker_fun <- inline::cfunction( signature(x = "list", preallocated_target = "ch
                                    SET_STRING_ELT(preallocated_target,i, mkCharLen(buffer, buf_pos - buffer));
                                    }
                                    return preallocated_target;
-                                   " )
-
-inline::getDynLib(worker_fun)
-inline::code(worker_fun)
-inline::print(worker_fun)
-
-#Test with the same data
-
-RowCount <- 5
-DT <- data.table(x = "foo",
-                 y = "bar",
-                 a = sample.int(9, RowCount, TRUE),
-                 b = sample.int(9, RowCount, TRUE),
-                 c = sample.int(9, RowCount, TRUE),
-                 d = sample.int(9, RowCount, TRUE),
-                 e = sample.int(9, RowCount, TRUE),
-                 f = sample.int(9, RowCount, TRUE))
-
-## Generate an expression to paste an arbitrary list of columns together
-ConcatCols <- list("a","b","c","d","e","f")
-## Do it 3x as many times
-ConcatCols <- c(ConcatCols,ConcatCols,ConcatCols)
-
-
-
-preallocated_target <- character(RowCount)
-column_indices <- sapply(ConcatCols, FUN = function(x) { which(colnames(DT) == x )})
-x <- worker_fun(DT, preallocated_target, column_indices, as.integer(1), as.integer(RowCount))
-DT[, State := preallocated_target]
+                                   
+  warning("your C program does not return anything!");
+  return R_NilValue;
+}
