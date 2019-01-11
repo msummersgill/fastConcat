@@ -1,7 +1,7 @@
 Package: fastConcat
 Type: Package
 Title: Frankenstein hack job of data.table internals to concatenate vectors faster
-Version: 0.1
+Version: 0.1.1
 Date: 2018-01-18
 Authors@R: c(
              person("Matt","Summersgill",      role=c("aut","cre"), email="matt.summersgill@gmail.com"),
